@@ -1,8 +1,11 @@
 package dev.shadowsoffire.hostilenetworks.client;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
+import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatDescription;
+import org.lwjgl.system.MemoryStack;
 
-public class GhostVertexBuilder implements VertexConsumer {
+public class GhostVertexBuilder implements VertexConsumer, VertexBufferWriter {
     private final VertexConsumer wrapped;
     private final int alpha;
 
@@ -56,4 +59,8 @@ public class GhostVertexBuilder implements VertexConsumer {
 
     }
 
+    @Override
+    public void push(MemoryStack memoryStack, long l, int i, VertexFormatDescription vertexFormatDescription) {
+        VertexBufferWriter.of(this.wrapped).push(memoryStack, l, i, vertexFormatDescription);
+    }
 }
